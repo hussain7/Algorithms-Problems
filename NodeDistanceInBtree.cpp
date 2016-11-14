@@ -1,6 +1,5 @@
 
 // Distance between two nodes in a binary tree
-
 #include "stdafx.h"
 #include <iostream>
 #include <algorithm>
