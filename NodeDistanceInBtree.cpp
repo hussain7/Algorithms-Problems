@@ -1,5 +1,6 @@
 
 // Distance between two nodes in a binary tree
+
 #include "stdafx.h"
 #include <iostream>
 #include <algorithm>
@@ -25,69 +26,117 @@ struct Node
 template<class T>
 class BST
 {
-    Node<T>* root;
     public:
-    bool insert(T root);
+    BST();
+    Node<T>* insert(Node<T>* root, T element);
     void deleteNode(T key);
-    void print();
+    void printTree();
+    Node<T>* getroot();
+    Node<T>* lca(T key1, T key2, Node<T>* node = root);
+    Node<T>* lcaImproved(T key1, T key2, Node<T>* node = root);
 
     private:
-    void BST<T>::printUtils(Node<T>* root);
-
+    void BST<T>::printUtility(Node<T>* root);
+    Node<T>* root;
 };
 
-/*
-template <class T>  void BST<T>::deleteNode(T key)
+template<class T> Node<T>* BST<T>::getroot()
 {
-    
+    return root;
 }
-*/
 
-template<class T> bool BST<T>::insert(T key)
+template<class T> BST<T>::BST():root(NULL)
+{}
+
+template<class T> Node<T>* BST<T>::lca(T key1, T key2, Node<T>* node)
 {
-    if(root == NULL)
+    if(node == NULL)
+      return node;
+
+    if(node->key >= key1 && node->key <= key2 || node->key <= key1 && node->key >= key2 )
+        return node;
+    else if (node->key < key1 && node->key < key2)
     {
-        auto treeNode = new Node<int>(key);
-        root = treeNode;
-        return 0;
+        lca(key1, key2, node->right);
     }
-    else
+    else if(node->key < key1 && node->key < key2)
     {
-        if(key > root->key) // move key to right
-        {
-            root = root->right;
-        }
-        else // move to left
-        {
-            root = root->left;
-        }
+        lca(key1, key2, node->left);
     }
 
-    return 0;
+    return NULL;
 }
 
-template<class T> void BST<T>::print()
+template<class T> Node<T>* BST<T>::lcaImproved(T key1, T key2, Node<T>* node)
 {
-    printUtils(root);
+    if(node == NULL)
+        return node;
+    // If either n1 or n2 matches with root's key, report
+    // the presence by returning root (Note that if a key is
+    // ancestor of other, then the ancestor key becomes LCA
+    if (node->key == key1 && node->key == key2)
+        return node;
+    // check if left or right subtree have lca
+    auto nodeLeft = lcaImproved(key1, key2, node);
+    auto nodeRight = lcaImproved(key1, key2, node);
+    // If both of the above calls return Non-NULL, then one key
+    // is present in once subtree and other is present in other,
+    // So this node is the LCA
+    if(nodeLeft && nodeRight ) return node;
+
+    // Otherwise check if left subtree or right subtree is LCA.
+    return nodeLeft ? nodeLeft:nodeRight;
 }
 
-template<class T> void BST<T>::printUtils(Node<T>* root)
+template<class T> Node<T>* BST<T>::insert(Node<T>* node, T element)
 {
-    if(root == NULL)
-        return;
+    if(node == NULL)
+    {
+        node = new Node<int>(element);
+        return node;
+    }
 
-    std::cout<<" Node "<<root->key<<std::endl;
-    printUtils(root->left);
-    printUtils(root->right);
+    if(element > node->key) // move key to right
+    {
+        node->right = insert(node->right, element);
+    }
+    else if(element < node->key) // move to left
+    {
+        node->left = insert(node->left, element);
+    }
+    return node;
 }
 
+template<class T> void BST<T>::printTree()
+{
+    printUtility(getroot());
+}
+
+template<class T> void BST<T>::printUtility(Node<T>* root)
+{
+    if (root != NULL)
+    {
+        printUtility(root->left);
+        std::cout<<" Node "<<root->key<<std::endl;
+        printUtility(root->right);
+    }
+}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
     auto tree = new BST<int>();
-    tree->insert(1);
-    tree->insert(5);
-    tree->insert(7);
-    tree->print();
-    delete tree;
+    auto root = tree->getroot();
+    root = tree->insert(root,44);
+    tree->insert(root, 3);
+    tree->insert(root, 7);
+    tree->insert(root, 5);
+    tree->insert(root, 12);
+    tree->insert(root, 75);
+    tree->insert(root, 17);
+    tree->insert(root, 37);
+    auto lcaNode = tree->lca(3,7,root);
+    if(lcaNode != NULL)
+    {
+        std::cout<<"LCA node "<<lcaNode->key<<std::endl;
+    }
 }
