@@ -109,7 +109,7 @@ template<class T> Node<T>* BST<T>::insert(Node<T>* node, T element)
 
 template<class T> void BST<T>::printTree()
 {
-    printUtility(getroot());
+   printUtility(getroot());
 }
 
 template<class T> void BST<T>::printUtility(Node<T>* root)
