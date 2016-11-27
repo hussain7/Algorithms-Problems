@@ -23,7 +23,7 @@ int minimax(int height, int depth, int index , bool isMax, std::vector<int> cons
     }
     else
     {
-        return std::min(minimax(height, depth+1, 2*index, true, score), minimax(height, depth+1, 2*index+1, true, score));
+         return std::min(minimax(height, depth+1, 2*index, true, score), minimax(height, depth+1, 2*index+1, true, score));
     }
 }
 
