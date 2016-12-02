@@ -8,6 +8,7 @@
 #include <stack>
 #include <vector>
 #include <memory>
+
 template <class T>
 struct Node
 {
@@ -33,7 +34,7 @@ class BST
     Node<T>* getroot();
     Node<T>* lca(T key1, T key2, Node<T>* node = root);
     Node<T>* lcaImproved(T key1, T key2, Node<T>* node = root);
-
+    int distancefromRoot(T key);
     private:
     void BST<T>::printUtility(Node<T>* root);
     Node<T>* root;
@@ -108,7 +109,7 @@ template<class T> Node<T>* BST<T>::insert(Node<T>* node, T element)
 
 template<class T> void BST<T>::printTree()
 {
-   printUtility(getroot());
+    printUtility(getroot());
 }
 
 template<class T> void BST<T>::printUtility(Node<T>* root)
@@ -121,6 +122,15 @@ template<class T> void BST<T>::printUtility(Node<T>* root)
     }
 }
 
+// assuming unique key for the node
+template<class T> int BST<T>::distancefromRoot(T key)
+{
+
+
+    return 0;
+}
+
+/*
 int _tmain(int argc, _TCHAR* argv[])
 {
     auto tree = new BST<int>();
@@ -138,4 +148,4 @@ int _tmain(int argc, _TCHAR* argv[])
     {
         std::cout<<"LCA node "<<lcaNode->key<<std::endl;
     }
-}
+}*/
