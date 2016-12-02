@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <sstream>
 #include <iostream>
-
 using namespace std;
 
 #define RANGE 10
@@ -37,7 +36,6 @@ void countingSort(int const arr[], int output[], int n)
         }
     }
 }
-
 int main()
 {
 
