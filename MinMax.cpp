@@ -8,7 +8,6 @@
 #include <sstream>
 
 using namespace std;
-
 // player is max and start first
 int minimax(int height, int depth, int index , bool isMax, std::vector<int> const& score)
 {
