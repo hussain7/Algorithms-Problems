@@ -1,0 +1,52 @@
+#include <iostream>
+#include <climits>
+
+using namespace std;
+
+int search(int* a, int s, int e, int x)
+{
+    std::cout<<"s "<<s<<" e "<< e<<std::endl;
+    auto mid = (s+e)/2;
+    if(s >= e)
+        return INT_MAX;
+    
+    if( a[mid] == 1 && a[mid-1] == 0  )
+    {
+        return mid;
+    }
+    else if(a[mid] == 0 && a[mid+1] == 1)
+    {
+        return mid+1;
+    }
+    else if(a[mid] == 1 && a[mid-1] == 1)
+    {
+        e = mid+1;
+    }
+    else
+    {
+        s = mid;
+    }
+    search(a,s,e,x);
+}
+
+int main() {
+	
+	//code
+	//int a[5][5] = { {0,0,0,0,1}, {0,0,0,1,1}, {0,0,0,0,1}, {0,0,0,1,1}, {0,0,1,1,1} };
+    int a[5][5] = { {0,0,0,0,1}, {0,0,0,1,0}, {0,0,0,0,1}, {0,0,0,0,1}, {0,0,0,0,1} };
+	int max=6;
+	int max_row = 100;
+	for(int i=0; i<5; i++)
+	{
+	    
+	 std::cout<< " Search Index for "<<i<<" value "<<search(a[i],0,4,1)<<std::endl;
+	 if(  max > search(a[i],0,4,1) )
+	 {
+	     max = search(a[i], 0,4,1);
+	     max_row = i;
+	 }
+	}
+	
+	std::cout <<" Row with maximum one's "<<max_row;
+	return 0;
+}
