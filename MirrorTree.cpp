@@ -56,6 +56,22 @@ node* converttoMirrorBottomsUp(node* root)
     
     return root;
 }
+//check if the path exuts with a given sum
+bool sumExits(node* root, int sum)
+{
+    if(root == nullptr)
+    {
+        if(sum ==0)
+            return true;
+        else
+            return false;
+    }
+    
+    return sumExits(root->left, (sum - root->key))|| sumExits(root->right, (sum - root->key));
+
+}
+
+
 
 // Driver program to test above functions
 int main()
@@ -69,6 +85,7 @@ int main()
     root->left->right = newNode(4);
     print(root);
     converttoMirrorBottomsUp(root);
+    std::cout<< std::endl<<"sum " << sumExits(root,16)<<std::endl;
     std::cout<<std::endl;
     print(root);
     return 0;
